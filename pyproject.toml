@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "faq-chatbot"
+version = "0.1.0"
+description = "chatbot based on FAQs"
+authors = ["hunman"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.13"
+openai = "^1.52.1"
+pymilvus = "^2.4.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
