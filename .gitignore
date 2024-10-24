@@ -1,2 +1,5 @@
 final_result.pkl
 config.py
+/__pycache__
+/data
+/.vscode
