@@ -10,7 +10,7 @@ class Retriever:
         self.db_client = MilvusClient("data/milvus.db")
         self.embeddings = Embeddings()
 
-    def retrieve(self, query, top_k=5):
+    def retrieve(self, query, threshold=0.8):
         query_vector = self.embeddings.get_embedding(query)
 
         search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
@@ -19,9 +19,11 @@ class Retriever:
             data=[query_vector],
             anns_field="question_embedding",
             search_params=search_params,
-            limit=top_k,
+            limit=1,
             output_fields=["question", "answer"]
         )
 
-        documents = [hit.get("entity").get("answer") for hit in results[0]]
-        return documents
+        result = results[0][0]
+        if result.get('distance') < threshold:
+            return result.get("entity").get("answer")
+        return None
