@@ -15,6 +15,6 @@ class Generator:
         ]
         response = openai.chat.completions.create(
             model=GPT_MODEL,
-            messages=messages,
+            messages=messages
         )
         return response.choices[0].message.content.strip()

@@ -1,15 +1,16 @@
+from fastapi import FastAPI, Response
+from pydantic import BaseModel
 from model import RAGModel
 
 
-def main():
-    rag_model = RAGModel()
-    while True:
-        query = input("질문을 입력하세요 (종료: 'exit'): ")
-        if query.lower() == 'exit':
-            break
-        answer = rag_model.get_answer(query)
-        print(f"답변: {answer}")
+class Chat(BaseModel):
+    query: str
 
 
-if __name__ == "__main__":
-    main()
+app = FastAPI()
+
+
+@app.post("/chat")
+async def chat(chat: Chat):
+    model = RAGModel()
+    return Response(model.get_answer(chat.query), media_type="text/plain")
