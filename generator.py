@@ -10,10 +10,11 @@ class Generator:
     def generate(self, context, query):
         messages = [
             {"role": "system", "content": "You are an assistant that answers questions based on the provided context."},
-            {"role": "user", "content": f"Context: {context}\nQuestion: {query}"}
+            {"role": "user", "content": f"Context: {context}\nQuestion: {query}"},
+            {"role": "user", "content": "After answering, suggest something else the user might be interested in based on the provided context."}
         ]
         response = openai.chat.completions.create(
             model=GPT_MODEL,
-            messages=messages
+            messages=messages,
         )
         return response.choices[0].message.content.strip()
