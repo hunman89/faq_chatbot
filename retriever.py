@@ -1,7 +1,4 @@
-import openai
 from pymilvus import MilvusClient
-
-from config import OPENAI_API_KEY
 from embeddings import Embeddings
 
 
@@ -25,5 +22,5 @@ class Retriever:
 
         result = results[0][0]
         if result.get('distance') < threshold:
-            return result.get("entity").get("answer")
+            return {'question': result.get("entity").get("question"), 'answer': result.get("entity").get("answer")}
         return None
