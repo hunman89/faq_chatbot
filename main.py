@@ -1,7 +1,9 @@
 
-from fastapi import FastAPI, Response
+from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from pymilvus import MilvusClient
+from data_loader import DataLoader
 from generator import Generator
 from retriever import Retriever
 
@@ -11,7 +13,9 @@ class Chat(BaseModel):
 
 
 app = FastAPI()
-retriever = Retriever()
+db_client = MilvusClient("data/milvus.db")
+DataLoader(db_client)
+retriever = Retriever(db_client)
 generator = Generator()
 
 

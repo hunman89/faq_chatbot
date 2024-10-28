@@ -1,14 +1,15 @@
 from pymilvus import MilvusClient
+from data_loader import DataLoader
 from embeddings import Embeddings
 
 
 class Retriever:
-    def __init__(self):
-        self.db_client = MilvusClient("data/milvus.db")
+    def __init__(self, db_client):
+        self.db_client = db_client
         self.embeddings = Embeddings()
 
-    def retrieve(self, query, threshold=0.8):
-        query_vector = self.embeddings.get_embedding(query)
+    def retrieve(self, query, threshold=1.0):
+        query_vector = self.embeddings.get_embedding([query])[0]
 
         search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
         results = self.db_client.search(

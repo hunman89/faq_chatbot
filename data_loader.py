@@ -1,5 +1,4 @@
 import re
-import numpy as np
 import pandas as pd
 from pymilvus import CollectionSchema, DataType, FieldSchema, MilvusClient
 
@@ -8,18 +7,17 @@ from embeddings import Embeddings
 
 
 class DataLoader:
-    def __init__(self):
-        self.db_client = MilvusClient("data/milvus.db")
+    def __init__(self, db_client):
+        self.db_client = db_client
         self.embeddings = Embeddings()
 
         if COLLECTION_NAME not in self.db_client.list_collections():
-
-            data = pd.read_pickle('data/final_result.pkl')
+            data = pd.read_pickle("data/final_result.pkl")
             df = pd.DataFrame(list(data.items()), columns=[
                               'question', 'answer'])
 
-            df['question_embedding'] = df['question'].apply(
-                self.embeddings.get_embedding)
+            df['question_embedding'] = self.embeddings.get_batch_embeddings(
+                df['question'].tolist())
             df['answer'] = df['answer'].apply(answer_parse)
 
             fields = [
@@ -44,7 +42,7 @@ class DataLoader:
                 "faq_collection", schema=schema, index_params=index_params)
 
             self.db_client.insert(collection_name="faq_collection",
-                                  data=data.to_dict('records'))
+                                  data=df.to_dict('records'))
             self.db_client.load_collection(collection_name='faq_collection')
 
 
