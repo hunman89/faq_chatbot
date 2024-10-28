@@ -1,6 +1,9 @@
+
 from fastapi import FastAPI, Response
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from model import RAGModel
+from generator import Generator
+from retriever import Retriever
 
 
 class Chat(BaseModel):
@@ -8,9 +11,11 @@ class Chat(BaseModel):
 
 
 app = FastAPI()
+retriever = Retriever()
+generator = Generator()
 
 
-@app.post("/chat")
+@app.get("/chat")
 async def chat(chat: Chat):
-    model = RAGModel()
-    return Response(model.get_answer(chat.query), media_type="text/plain")
+    context = retriever.retrieve(chat.query)
+    return StreamingResponse(generator.generate(context, chat.query), media_type="text/event-stream")
