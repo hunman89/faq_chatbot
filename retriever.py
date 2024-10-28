@@ -23,4 +23,4 @@ class Retriever:
         result = results[0][0]
         if result.get('distance') < threshold:
             return {'question': result.get("entity").get("question"), 'answer': result.get("entity").get("answer")}
-        return None
+        return ""
