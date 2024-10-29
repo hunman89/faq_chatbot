@@ -34,9 +34,8 @@ class DataLoader:
             index_params = self.db_client.prepare_index_params()
             index_params.add_index(
                 field_name="question_embedding",
-                metric_type="L2",
-                index_type="FLAT",
-                params={"nlist": 128}
+                metric_type="COSINE",
+                index_type="HNSW"
             )
             self.db_client.create_collection(
                 "faq_collection", schema=schema, index_params=index_params)

@@ -12,8 +12,18 @@
 ## 작동 방식
 
 ```bash
+git clone https://github.com/hunman89/faq_chatbot.git
+cd faq_chatbot
+
+# config.py에 apikey 삽입후.
+
 poetry install
 poetry run fastapi run
+
+curl --request GET \
+  --url http://127.0.0.1:8000/chat \
+  --header 'Content-Type: application/json' \
+  --data '{"query": "회원가입은 어떻게 하나요?"}'
 ```
 
 ## 향후 개선 사항
