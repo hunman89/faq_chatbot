@@ -1,5 +1,4 @@
 from pymilvus import MilvusClient
-from data_loader import DataLoader
 from embeddings import Embeddings
 
 

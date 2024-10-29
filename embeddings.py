@@ -16,7 +16,6 @@ class Embeddings:
         embeddings = []
         for i in range(0, len(texts), batch_size):
             print(f"{i}/{len(texts)}번째 데이터 임베딩 변환 중...")
-            batch_texts = texts[i:i+batch_size]
-            batch_embeddings = self.get_embedding(batch_texts)
+            batch_embeddings = self.get_embedding(texts[i:i+batch_size])
             embeddings.extend(batch_embeddings)
         return embeddings
