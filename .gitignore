@@ -1,4 +1,3 @@
-final_result.pkl
 /__pycache__
-/data
+*.db
 /.vscode

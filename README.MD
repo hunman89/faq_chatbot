@@ -13,7 +13,7 @@
 
 ```bash
 poetry install
-fastapi run
+poetry run fastapi run
 ```
 
 ## 향후 개선 사항
